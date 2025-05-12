@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitwear - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+</head>
+<body>
+    
+    <!-- Know Your Shape Section -->
+    <section id="know-your-shape">
+        <h2>Know Your Shape</h2>
+        <p>Enter your measurements</p>
+        <form id="measurements-form" action="{{ url_for('classify') }}" method="POST">
+            <div class="mb-3">
+                <label for="bust" class="form-label">Bust (inches):</label>
+                <input type="number" class="form-control" id="bust" name="bust" step="0.1" required>
+            </div>
+            <div class="mb-3">
+                <label for="waist" class="form-label">Waist (inches):</label>
+                <input type="number" class="form-control" id="waist" name="waist" step="0.1" required>
+            </div>
+            <div class="mb-3">
+                <label for="hips" class="form-label">Hips (inches):</label>
+                <input type="number" class="form-control" id="hips" name="hips" step="0.1" required>
+            </div>
+            <div class="mb-3">
+                <label for="high_hip" class="form-label">High Hip (inches):</label>
+                <input type="number" class="form-control" id="high_hip" name="high_hip" step="0.1" required>
+            </div>
+            <div class="mb-3">
+                <label for="height_range" class="form-label">Height range (Feet):</label>
+                <input type="number" class="form-control" id="height_range" name="height_range" step="0.1" required>
+            </div>
+            <div class="mb-3">
+                <label for="size" class="form-label">Size(ex:m,l..):</label>
+                <input type="text" class="form-control" id="size" name="size" pattern="[A-Za-z]+" title="Only letters are allowed" required>
+            </div>
+            <button type="submit" class="btn">Classify</button> <!--onclick="showPopup()"-->
+        </form>
+        
+    </section>
+
+    <!-- Backdrop
+    <div id="iframe-backdrop"></div> -->
+
+    <!-- Popup iframe 
+    <iframe src="auth-popup.html" id="popup-iframe"></iframe>-->
+
+    <!-- How to Take Measurements Section -->
+    <section id="how-to-measure">
+        <h2>How to Take Measurements?</h2>
+        <div class="measurement-guide">
+            <p><strong>Bust:</strong> Wrap the measuring tape around the fullest part of your bust, ensuring it is level with your back.</p>
+            <p><strong>Waist:</strong> Measure around the narrowest part of your waist, typically above your belly button and below your rib cage.</p>
+            <p><strong>High Hips:</strong> Measure around the area just above your hip bones, typically 3-4 inches below your waist.</p>
+            <p><strong>Hips:</strong> Wrap the tape around the widest part of your hips and buttocks, ensuring it stays parallel to the floor.</p>
+        </div>
+        <img src="{{ url_for('static', filename='images/measurement-guide.png') }}" alt="Measurement Guide" class="measurement-image">
+    </section>
+
+    <script>
+        // Scroll to the measurements form when "Try Now" is clicked
+        function scrollToForm() {
+            document.getElementById('know-your-shape').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Client-side form validation
+        document.getElementById('measurements-form').addEventListener('submit', (e) => {
+            const bust = parseFloat(document.getElementById('bust').value);
+            const waist = parseFloat(document.getElementById('waist').value);
+            const hips = parseFloat(document.getElementById('hips').value);
+            const highHip = parseFloat(document.getElementById('high_hip').value);
+            const height = parseFloat(document.getElementById('height_range').value);
+            const size = document.getElementById('size').value;
+
+            if (bust <= 0 || waist <= 0 || hips <= 0 || highHip <= 0 || height <= 0 || !size) {
+                e.preventDefault();
+                alert('Please enter valid positive values for all measurements.');
+                return;
+            }
+             // Check if size field contains only letters and is not empty
+            if (!/^[A-Za-z]+$/.test(size)) {
+                e.preventDefault();
+                alert('Please enter letters only for the size.');
+                return; // Stop further processing if size is invalid
+        }
+
+        // If all validations pass, the form will be submitted
+        });
+    </script>
+   <!-- <script>
+        function showPopup() {
+          document.getElementById('popup-iframe').style.display = 'block';
+          document.getElementById('iframe-backdrop').style.display = 'block';
+        }
+    
+        function closePopup() {
+          document.getElementById('popup-iframe').style.display = 'none';
+          document.getElementById('iframe-backdrop').style.display = 'none';
+        }
+    
+        // Listen for message from iframe to close popup
+        window.addEventListener("message", (event) => {
+          if (event.data === "closePopup") {
+            closePopup();
+          }
+        });
+    </script>-->
+
+</body>
+
+</html>

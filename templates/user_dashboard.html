@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitwear - login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/userdash.css') }}?v=9">
+    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap" rel="stylesheet">
+
+</head>
+<body class="results-page">
+    <header>
+        <nav>
+            <div class="logo">Fitwear</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a href="{{ url_for('about') }}">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="classified-body">
+        <h2>Your Body Shape is: <span class="body-shape">{{ body_shape|capitalize }}</span></h2>
+    </section>
+
+    <section id="clothing-recommendations">
+        <div class="tabs">
+            <p class="tab-text">Recommended Clothing</p>
+            
+        </div>
+        <div id="recommended" class="tab-content active">
+            <div class="container">
+                <div class="silhouette-section">
+                    <h3>Silhouette</h3>
+                    <img src="{{ silhouette_image or '/images/' ~ body_shape|capitalize ~ ' final.png' }}" alt="{{ body_shape }} Silhouette" style="width: 300px; height: 600px;" id="silhouette-image" onerror="console.error('Silhouette failed to load:', this.src)">
+                </div>
+                <div class="clothing-section">
+                    <div class="clothing-categories">
+                        <div class="category">
+                            <h3>Tops</h3>
+                            <div class="category-images" id="tops-images">
+                                {% for item in recommendations['Tops'] %}
+                                    <div class="clothing-item">
+                                        <img src="{{ item[0] }}" alt="Tops" class="clothing-image" onload="hideLoadingPopup()" onerror="hideLoadingPopup()">
+                                        <p>{{ item[1] }}</p>
+                                        <button class="try-on-btn" data-clothing-type="Tops" data-clothing-item="{{ item[1] }}" data-image-link="{{ item[0] }}">Try On</button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="category">
+                            <h3>Pants</h3>
+                            <div class="category-images" id="pants-images">
+                                {% for item in recommendations['Pants'] %}
+                                    <div class="clothing-item">
+                                        <img src="{{ item[0] }}" alt="Pants" class="clothing-image" onload="hideLoadingPopup()" onerror="hideLoadingPopup()">
+                                        <p>{{ item[1] }}</p>
+                                        <button class="try-on-btn" data-clothing-type="Pants" data-clothing-item="{{ item[1] }}" data-image-link="{{ item[0] }}">Try On</button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="category">
+                            <h3>Dresses</h3>
+                            <div class="category-images" id="dresses-images">
+                                {% for item in recommendations['Dresses'] %}
+                                    <div class="clothing-item">
+                                        <img src="{{ item[0] }}" alt="Dresses" class="clothing-image" onload="hideLoadingPopup()" onerror="hideLoadingPopup()">
+                                        <p>{{ item[1] }}</p>
+                                        <button class="try-on-btn" data-clothing-type="Dresses" data-clothing-item="{{ item[1] }}" data-image-link="{{ item[0] }}">Try On</button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="category">
+                            <h3>Skirts</h3>
+                            <div class="category-images" id="skirt-images">
+                                {% for item in recommendations['Skirt'] %}
+                                    <div class="clothing-item">
+                                        <img src="{{ item[0] }}" alt="Skirt" class="clothing-image" onload="hideLoadingPopup()" onerror="hideLoadingPopup()">
+                                        <p>{{ item[1] }}</p>
+                                        <button class="try-on-btn" data-clothing-type="Skirt" data-clothing-item="{{ item[1] }}" data-image-link="{{ item[0] }}">Try On</button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="upload-section">
+                <h3>Upload your own clothing image</h3>
+                <div class="upload-form">
+                    <label for="clothing-type">Select Clothing Type:</label>
+                    <select id="clothing-type" name="clothing-type">
+                        <option value="tops">Tops</option>
+                        <option value="pants">Pants</option>
+                        <option value="dresses">Dresses</option>
+                        <option value="skirts">Skirts</option>
+                    </select>
+                    <button class="choose-file-btn" onclick="document.getElementById('image-upload').click()">Choose File</button>
+                    <input type="file" id="image-upload" name="image" accept="image/*" style="display: none;" required>
+                    <span id="file-name">No file chosen</span>
+                    <button class="upload-btn" onclick="uploadImage()">Upload</button>
+                </div>
+            </div>
+        </div>
+        <div id="to-avoid" class="tab-content">
+            <p>Clothing styles to avoid for {{ body_shape|capitalize }} body shape will be listed here.</p>
+        </div>
+    </section>
+
+    <section id="own-your-shape">
+        <h2>Own Your Shape</h2>
+        <div class="shape-buttons">
+            <button class="own-your-look-btn active" onclick="showShapeContent('tops')">Tops</button>
+            <button class="own-your-look-btn" onclick="showShapeContent('pants')">Pants</button>
+        </div>
+        {% if body_shape == "Hourglass" %}
+            <div id="tops" class="own-your-look-content active">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>Fitted Tops</li>
+                        <li>Wrap Tops</li>
+                        <li>Peplum Tops</li>
+                    </ul>
+                    <p><strong>Necklines:</strong></p>
+                    <ul>
+                        <li>V-Neck</li>
+                        <li>Sweetheart Neck</li>
+                        <li>Deep Scoop Neck</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Waist-Length</li>
+                        <li>Hip-Length</li>
+                    </ul>
+                    <p><strong>Sleeves:</strong></p>
+                    <ul>
+                        <li>Cap Sleeves</li>
+                        <li>Three-Quarter Sleeves</li>
+                        <li>Flutter Sleeves</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> Boxy tops that hide your curves, oversized shirts that add bulk, and high necklines that shorten the torso.</p>
+                </div>
+            </div>
+            <div id="pants" class="own-your-look-content">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>High-Waisted Jeans</li>
+                        <li>Bootcut Pants</li>
+                        <li>Flared Pants</li>
+                    </ul>
+                    <p><strong>Fit:</strong></p>
+                    <ul>
+                        <li>Slim Fit</li>
+                        <li>Straight Fit</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Full Length</li>
+                        <li>Ankle Length</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> Baggy pants that hide your shape, low-rise jeans that disrupt your proportions, and overly tight leggings that unbalance your silhouette.</p>
+                </div>
+            </div>
+        {% elif body_shape == "Rectangle" %}
+            <div id="tops" class="own-your-look-content active">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>Wrap Tops</li>
+                        <li>Belted Tops</li>
+                        <li>Ruffled Blouses</li>
+                    </ul>
+                    <p><strong>Necklines:</strong></p>
+                    <ul>
+                        <li>V-Neck</li>
+                        <li>Scoop Neck</li>
+                        <li>Boat Neck</li>
+                        <li>Off the Shoulder</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Hip Length</li>
+                        <li>Slightly Cropped</li>
+                    </ul>
+                    <p><strong>Sleeves:</strong></p>
+                    <ul>
+                        <li>Bell Sleeves</li>
+                        <li>Cap Sleeves</li>
+                        <li>Flutter Sleeves</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> High necklines like turtlenecks that make the torso look boxy, shapeless tops that lack definition, and tops with bust embellishments that emphasize a lack of curves.</p>
+                </div>
+            </div>
+            <div id="pants" class="own-your-look-content">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>Flared Jeans</li>
+                        <li>Wide-Leg Pants</li>
+                        <li>High-Waisted Trousers</li>
+                    </ul>
+                    <p><strong>Fit:</strong></p>
+                    <ul>
+                        <li>Relaxed Fit</li>
+                        <li>Straight Fit</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Full Length</li>
+                        <li>Cropped</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> Skinny jeans that emphasize a straight silhouette, low-rise pants that shorten the torso, and overly tight fits that lack volume.</p>
+                </div>
+            </div>
+        {% elif body_shape == "Inverted Triangle" %}
+            <div id="tops" class="own-your-look-content active">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>Peplum Tops</li>
+                        <li>Wrap Tops</li>
+                        <li>Flowy Blouses</li>
+                    </ul>
+                    <p><strong>Necklines:</strong></p>
+                    <ul>
+                        <li>V-Neck</li>
+                        <li>Scoop Neck</li>
+                        <li>Deep U-Neck</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Hip Length</li>
+                        <li>Tunic Length</li>
+                    </ul>
+                    <p><strong>Sleeves:</strong></p>
+                    <ul>
+                        <li>Sleeveless</li>
+                        <li>Flutter Sleeves</li>
+                        <li>Long Sleeves</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> Shoulder pads that exaggerate your broad shoulders, halter tops that draw attention to the upper body, and boat necklines that widen the shoulders.</p>
+                </div>
+            </div>
+            <div id="pants" class="own-your-look-content">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>Wide-Leg Pants</li>
+                        <li>Flared Jeans</li>
+                        <li>Palazzo Pants</li>
+                    </ul>
+                    <p><strong>Fit:</strong></p>
+                    <ul>
+                        <li>Relaxed Fit</li>
+                        <li>Bootcut</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Full Length</li>
+                        <li>Ankle Length</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> Tapered pants that make the hips look narrower, skinny jeans that unbalance your proportions, and low-rise pants that shorten the torso.</p>
+                </div>
+            </div>
+        {% elif body_shape == "Apple" %}
+            <div id="tops" class="own-your-look-content active">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>Empire Waist Tops</li>
+                        <li>Tunics</li>
+                        <li>Flowy Blouses</li>
+                    </ul>
+                    <p><strong>Necklines:</strong></p>
+                    <ul>
+                        <li>V-Neck</li>
+                        <li>Deep Scoop Neck</li>
+                        <li>Wrap Neck</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Hip Length</li>
+                        <li>Tunic Length</li>
+                    </ul>
+                    <p><strong>Sleeves:</strong></p>
+                    <ul>
+                        <li>Three-Quarter Sleeves</li>
+                        <li>Flutter Sleeves</li>
+                        <li>Long Sleeves</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> Tight fitted tops that cling to the midsection, cropped tops that expose the waist, and high necklines that shorten the torso.</p>
+                </div>
+            </div>
+            <div id="pants" class="own-your-look-content">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>Straight-Leg Pants</li>
+                        <li>Bootcut Jeans</li>
+                        <li>High-Waisted Trousers</li>
+                    </ul>
+                    <p><strong>Fit:</strong></p>
+                    <ul>
+                        <li>Relaxed Fit</li>
+                        <li>Slim Fit</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Full Length</li>
+                        <li>Ankle Length</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> Low-rise jeans that emphasize the midsection, skinny jeans that cling to the legs, and overly tight fits that unbalance the silhouette.</p>
+                </div>
+            </div>
+        {% elif body_shape == "Triangle" %}
+            <div id="tops" class="own-your-look-content active">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>Boat Neck Tops</li>
+                        <li>Off-Shoulder Tops</li>
+                        <li>Ruffled Blouses</li>
+                    </ul>
+                    <p><strong>Necklines:</strong></p>
+                    <ul>
+                        <li>Boat Neck</li>
+                        <li>Square Neck</li>
+                        <li>Off the Shoulder</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Waist-Length</li>
+                        <li>Slightly Cropped</li>
+                    </ul>
+                    <p><strong>Sleeves:</strong></p>
+                    <ul>
+                        <li>Puff Sleeves</li>
+                        <li>Bell Sleeves</li>
+                        <li>Cap Sleeves</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> Tight tops that emphasize the narrower upper body, V-necks that narrow the shoulders, and sleeveless tops that lack volume.</p>
+                </div>
+            </div>
+            <div id="pants" class="own-your-look-content">
+                <div class="own-your-look-category">
+                    <p><strong>Styles:</strong></p>
+                    <ul>
+                        <li>Straight-Leg Pants</li>
+                        <li>Bootcut Jeans</li>
+                        <li>A-Line Skirts (if applicable)</li>
+                    </ul>
+                    <p><strong>Fit:</strong></p>
+                    <ul>
+                        <li>Slim Fit</li>
+                        <li>Relaxed Fit</li>
+                    </ul>
+                    <p><strong>Length:</strong></p>
+                    <ul>
+                        <li>Full Length</li>
+                        <li>Ankle Length</li>
+                    </ul>
+                    <p><strong>*AVOID:</strong> Skinny jeans that emphasize the hips, low-rise pants that shorten the torso, and overly tight fits that highlight the lower body.</p>
+                </div>
+            </div>
+        {% endif %}
+    </section>
+
+
+    <div id="loading-popup" class="popup">
+        <div class="popup-content">
+            <h3>Loading...</h3>
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <script>
+        let loadedImages = 0;
+        const totalImages = document.querySelectorAll('.clothing-image').length;
+
+        function hideLoadingPopup() {
+            loadedImages++;
+            if (loadedImages >= totalImages) {
+                document.getElementById('loading-popup').style.display = 'none';
+                document.body.classList.remove('blur');
+            }
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-btn[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        function showShapeContent(contentId) {
+            document.querySelectorAll('.shape-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.shape-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(contentId).classList.add('active');
+            document.querySelector(`.shape-btn[onclick="showShapeContent('${contentId}')"]`).classList.add('active');
+        }
+
+        document.getElementById('image-upload').addEventListener('change', (e) => {
+            const fileName = e.target.files.length > 0 ? e.target.files[0].name : 'No file chosen';
+            document.getElementById('file-name').textContent = fileName;
+        });
+
+        function closeUploadPopup() {
+            document.getElementById('upload-popup').style.display = 'none';
+            document.body.classList.remove('blur');
+        }
+
+        function uploadImage() {
+            const fileInput = document.getElementById('image-upload');
+            if (fileInput.files.length === 0) {
+                alert('Please select an image to upload.');
+                return;
+            }
+
+            document.getElementById('loading-popup').style.display = 'flex';
+            document.body.classList.add('blur');
+
+            const formData = new FormData();
+            formData.append('action', 'upload');
+            formData.append('clothing_image', fileInput.files[0]);
+            formData.append('clothing_type', document.getElementById('clothing-type').value);
+
+            fetch('{{ url_for("dashboard", user_id=user_id) }}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading-popup').style.display = 'none';
+                if (data.status === 'success') {
+                    document.getElementById('silhouette-image').src = data.image_url;
+                    const uploadCount = document.querySelectorAll(`#${document.getElementById('clothing-type').value}-images .clothing-item[data-upload="true"]`).length + 1;
+                    const newItem = document.createElement('div');
+                    newItem.className = 'clothing-item';
+                    newItem.setAttribute('data-upload', 'true');
+                    newItem.innerHTML = `
+                        <img src="${data.original_image_url|| data.image_url}" alt="Upload ${uploadCount}" class="clothing-image" onload="hideLoadingPopup()" onerror="hideLoadingPopup()">
+                        <p>Upload ${uploadCount}</p>
+                        <button class="try-on-btn" data-clothing-type="${document.getElementById('clothing-type').value}" data-clothing-item="Upload ${uploadCount}" data-image-link="${data.image_url}">Try On</button>
+                    `;
+                    document.getElementById(`${document.getElementById('clothing-type').value}-images`).appendChild(newItem);
+                } else {
+                    alert('Upload failed: ' + data.message);
+                }
+            })
+            .catch(error => {
+                document.getElementById('loading-popup').style.display = 'none';
+                console.error('Error:', error);
+                alert('An error occurred during upload.');
+            });
+        }
+
+        function tryOn() {
+            const button = event.target;
+            const clothingType = button.getAttribute('data-clothing-type');
+            const clothingItem = button.getAttribute('data-clothing-item');
+            const imageLink = button.getAttribute('data-image-link');
+            console.log(`Trying on: ${clothingType}, ${clothingItem}, ${imageLink}`);
+
+            document.getElementById('loading-popup').style.display = 'flex';
+            document.body.classList.add('blur');
+
+            fetch('{{ url_for("dashboard", user_id=user_id) }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'action': 'try_on',
+                    'clothing_type': clothingType,
+                    'clothing_item': clothingItem
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading-popup').style.display = 'none';
+                if (data.status === 'success') {
+                    document.getElementById('silhouette-image').src = data.image_url;
+                } else {
+                    alert('Try On failed: ' + data.message);
+                }
+            })
+            .catch(error => {
+                document.getElementById('loading-popup').style.display = 'none';
+                console.error('Error:', error);
+                alert('An error occurred during Try On.');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.clothing-image').forEach(img => {
+                img.onload = hideLoadingPopup;
+                img.onerror = hideLoadingPopup;
+            });
+            document.querySelectorAll('.try-on-btn').forEach(button => {
+                button.addEventListener('click', tryOn);
+            });
+        });
+        function showShapeContent(category) {
+            const contents = document.querySelectorAll('.own-your-look-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+                content.style.display = 'none';
+            });
+            const selectedContent = document.getElementById(category);
+            selectedContent.classList.add('active');
+            selectedContent.style.display = 'block';
+
+            const buttons = document.querySelectorAll('.own-your-look-btn');
+            buttons.forEach(button => button.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Set Tops as default on page load
+        window.onload = function() {
+            showShapeContent('tops');
+        };
+    </script>
+    
+</body>
+</html>

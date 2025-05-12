@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shape.css') }}" />
+  </head>
+  <body>
+    <div class="know-more-page">
+      <div class="div">
+        <!-- ✅ Navbar moved and styled inside the red section at top-right -->
+        <nav class="navbar">
+          <ul class="nav-links">
+            <li><a href="{{url_for('home')}}">Back</a></li>
+          </ul>
+        </nav>
+
+        <div class="overlap-group">
+          <div class="rectangle">
+            <div class="text-wrapper">{{ shape_data.title }}</div>
+            <img src="{{ shape_data.image}}" alt="{{ shape_data.alt }}" class="center-image" />
+          </div>
+        </div>
+
+        <p class="p">
+          <!--The hourglass body shape is naturally curvy, with a well-defined waist and balanced bust and hips. This body
+          type is best suited for fitted clothing that enhances the waistline.-->
+          {{ shape_data.description1 }}
+        </p>
+        <p class="text-wrapper-2">
+          <!--Wrap dresses, bodycon outfits, and structured tops help maintain the natural proportions. It’s important to
+          avoid overly loose or boxy clothing, as they may hide the natural curves.-->
+          {{ shape_data.description2 }}
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

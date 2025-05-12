@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Access</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/quest.css') }}">
+</head>
+<body>
+    <div class="login">
+        <div class="div">
+            <form action="{{ url_for('quest') }}" method="POST">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                </div>
+                {% if msg %}
+                    <div class="alert alert-danger">{{ msg }}</div>
+                {% endif %}
+                <button type="submit" class="btn btn-primary">Access As Guest</button>
+            </form>
+            <div class="mt-3">
+                <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('signup') }}">Signup</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

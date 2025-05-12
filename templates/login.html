@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+ </head>
+  <body>
+    <div class="login">
+      <div class="div">
+        <div class="overlap">
+          <div class="BG">
+            <div class="overlap-group"><div class="ellipse"></div></div>
+          </div>
+          <div class="overlap-wrapper">
+            <div class="overlap-group"><div class="ellipse"></div></div>
+          </div>
+          <div class="rectangle"></div>
+            <div class="form">
+              <form action="{{ url_for('login') }}" method="POST">
+                <div class="username">
+                  <div class="overlap-group-2">
+                    <div class="text-wrapper">
+                      <input type="username" name="username" class="form-control" placeholder="USERNAME" style="border: none; padding-bottom: 20px; background-color: transparent; width: calc(100%);" required> 
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="52" fill="white" class="bi bi-person" viewBox="-3 -3 20 20" >
+                      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="password">
+                  <div class="overlap-group-2">
+                    <div class="text-wrapper">
+                      <input type="password" name="pwd" class="form-control" placeholder="PASSWORD" style="border: none; padding-bottom: 20px; background-color: transparent; width: calc(100%)" required>
+                    </div>
+                    <!--<input type="password" class="form-control" placeholder="PASSWORD" style="border: none; background-color: transparent; width: calc(100% - 60px);">-->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="52" fill="white" class="bi bi-lock" viewBox="-4 -4 25 25">
+                      <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1"/>
+                    </svg>
+                  </div>
+                </div>
+                
+                <button class="login-btn" type="submit" >
+                  <div class="login-wrapper"><div class="text-wrapper-2">Login</div></div>
+                </button>
+              </form>
+              <div class="text-wrapper-3">Forgot password?</div>
+            </div>
+            {% if msg %}
+              <div class="alert alert-danger">{{ msg }}</div>
+            {% endif %}
+
+          <div class="l-ogin">Login </div>
+          <p class="don-t-have-a-account">
+            Don’t have a account register <a href="{{ url_for('signup') }}"> Signup </a><br /><br />Or<br /><br />Skip &amp; access as <a href="{{ url_for('quest') }}"> Quest </a>
+          </p>
+        </div>
+        <img class="rectangle-2" src="img/rectangle-59.svg" />
+      </div>
+  </div>
+ 
+  </body>
+</html>

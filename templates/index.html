@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitwear - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Leckerli+One&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+</head>
+<body class="landing-page">
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">Fitwear</div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                <li><a href="{{ url_for('about') }}">About Us</a></li>
+                <!--<li><a href="{{ url_for('login')}}">Login </a></li>-->
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section style="position: relative; width: 100%; height: 600px; overflow: hidden; border-bottom: 2px solid #ccc;">
+        <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover;">
+            <source src="{{ url_for('static', filename='images/recording.mp4') }}" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+    </section>
+    
+
+    <section class="center-content">
+        <form action="{{ url_for('measure') }}" method="get">
+            <p> Discover Your Perfect Fit,We help you find clothing  that truly flatters your unique body shape. 
+                By understanding your measurements, we classify your body type and recommend styles tailored just for you. 
+                 From tops and skirts to pants and dresses, explore  fashion that suits your silhouette. Try on outfits 
+                 virtually using 2D overlays and even upload your own clothing images to see how they look. Fashion is for 
+                 every shape — we’re here to make it personal, fun, and effortless.</p>
+            <button class="btn" >Try Now</button>  
+        </form>
+    </section>
+
+    <!-- Body Shapes Section -->
+    <section id="body-shapes">
+        <h2>Body Shapes</h2>
+        <div class="shapes-container">
+            <div class="shape">
+                <img src="{{ url_for('static', filename='images/hourglass.png') }}" alt="Hourglass">
+                <h3>Hourglass Body Shape</h3>
+                <a href="{{ url_for('know_more', shape='hourglass') }}" class="know-more-btn">Know More</a>
+            </div>
+            <div class="shape">
+                <img src="{{ url_for('static', filename='images/rectangle.png') }}" alt="Rectangle">
+                <h3>Rectangle Body Shape</h3>
+                <a href="{{ url_for('know_more', shape='rectangle') }}" class="know-more-btn">Know More</a>
+            </div>
+            <div class="shape">
+                <img src="{{ url_for('static', filename='images/apple.png') }}" alt="Apple">
+                <h3>Apple Body Shape</h3>
+                <a href="{{ url_for('know_more', shape='apple') }}" class="know-more-btn">Know More</a>
+            </div>
+            <div class="shape">
+                <img src="{{ url_for('static', filename='images/Pear.png') }}" alt="Triangle">
+                <h3>Triangle Body Shape</h3>
+                <a href="{{ url_for('know_more', shape='triangle') }}" class="know-more-btn">Know More</a>
+            </div>
+            <div class="shape">
+                <img src="{{ url_for('static', filename='images/inverted triangle.png') }}" alt="Inverted Triangle">
+                <h3>Inverted Triangle Body Shape</h3>
+                <a href="{{ url_for('know_more', shape='inverted-triangle') }}" class="know-more-btn">Know More</a>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
+<script>
+    const video = document.querySelector('video');
+    
+    // On load, apply the zoom-out effect
+    window.addEventListener('load', () => {
+        video.style.transform = 'scale(0.98)'; // Adjust the scale value as needed
+    });
+</script>
+
+
+
+ <!--Discover Your Perfect Fit,We help you find clothing that truly flatters your unique body shape. By understanding your measurements, we classify your body type and recommend styles tailored just for you. From tops and skirts to pants and dresses, explore fashion that suits your silhouette. Try on outfits virtually using 2D overlays and even upload your own clothing images to see how they look. Fashion is for every shape — we’re here to make it personal, fun, and effortless. */
+
+position: absolute;
+width: 993px;
+height: 484px;
+left: 243px;
+top: 775px;
+
+font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 36px;
+line-height: 46px;
+/* or 128% */
+text-align: center;
+
+color: #7A1019;
+
+-->
